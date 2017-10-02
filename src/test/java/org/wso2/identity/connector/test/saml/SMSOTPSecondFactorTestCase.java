@@ -166,7 +166,7 @@ public class SMSOTPSecondFactorTestCase extends ISIntegrationTest {
             Assert.assertTrue(response.getHeaders("LOCATION")[0].getValue().contains("https://localhost:9853/smsotpauthenticationendpoint/smsotp.jsp"));
             EntityUtils.consume(response.getEntity());
         } catch (Exception e) {
-            Assert.fail("SAML SSO Login test failed.", e);
+            Assert.fail("Did not redirect to sms authentication endpoint endpoint.", e);
         }
     }
 
@@ -187,7 +187,6 @@ public class SMSOTPSecondFactorTestCase extends ISIntegrationTest {
             response = sendRedirectRequest(response);
             String samlResponse = Utils.extractDataFromResponse(response, "name='SAMLResponse'", 5);
             samlResponse = new String(Base64.decodeBase64(samlResponse));
-            System.out.println(samlResponse);
             Assert.assertTrue(samlResponse.contains("<saml2:NameID Format=\"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress\">testUser</saml2:NameID>"));
 
         } catch (Exception e) {
